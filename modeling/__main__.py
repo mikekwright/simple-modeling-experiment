@@ -39,6 +39,9 @@ def setup_logging(debug, output_path=None):
 @click.option('--output', default=None)
 @click.pass_context
 def cli(ctx, debug, output=None):
+    if output:
+        os.makedirs(output, exist_ok=True)
+
     click.echo('Debug mode is %s' % ('on' if debug else 'off'))
     setup_logging(debug, output)
     ctx.obj['OUTPUT'] = output
@@ -57,10 +60,13 @@ def run_training(ctx, config_filename):
     loader = JsonLoader(class_lookup_func=get_class_from_name)
 
     with open(config_filename, 'r') as config_file:
-        train = loader.initialize_json(config_file.read())
+        config_contents = config_file.read()
+        train = loader.initialize_json(config_contents)
 
     train()
     if output is not None:
+        with open(os.path.join(output, 'train_config.json'), 'w', encoding='utf-8') as config_file:
+            json.dump(json.loads(config_contents), config_file, indent=4, ensure_ascii=False)
         train.store_results(output)
 
 

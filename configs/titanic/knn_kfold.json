@@ -1,0 +1,16 @@
+{
+    "__type__": "KFoldTrainer",
+    "model": {
+        "__type__": "KNNModel"
+    },
+    "data": {
+        "__type__": "TitanicTransformer",
+        "reader": {
+            "__type__": "TitanicReader",
+            "directory": "raw_data/titanic"
+        }
+    },
+    "evaluator": {
+        "__type__": "AccuracyEvaluator"
+    }
+}
