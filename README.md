@@ -3,6 +3,14 @@
 This is my scratch repo that I am using to better understand the Data Science process, pieces involved and
 hopefully increase my overall fluency in this exciting field.  
 
+
+## Study Material
+
+There are a few books that I am using to further my understanding, they are:
+
+* [Elements of Statistical Learning](https://web.stanford.edu/~hastie/Papers/ESLII.pdf)  
+*
+
 ### Data Sources
 
 There are a few different places to obtain workable datasets, I have listed a few of those that I am aware
