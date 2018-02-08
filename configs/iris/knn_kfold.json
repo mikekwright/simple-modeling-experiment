@@ -1,0 +1,16 @@
+{
+    "__type__": "KFoldTrainer",
+    "model": {
+        "__type__": "KNNModel"
+    },
+    "data": {
+        "__type__": "IrisTransformer",
+        "reader": {
+            "__type__": "IrisReader",
+            "data_filename": "raw_data/iris/iris_data.json"
+        }
+    },
+    "evaluator": {
+        "__type__": "AccuracyEvaluator"
+    }
+}
