@@ -12,7 +12,7 @@ from .data import *
 from .evaluator import *
 from .training import *
 
-from .models.knn_model import KNNModel
+from .models.knn import *
 
 
 def get_class_from_name(name):

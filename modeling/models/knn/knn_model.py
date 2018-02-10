@@ -22,19 +22,22 @@ class KNNModel:
         label_counts = len(distance_labels)
         return (most_common[0], most_common[1] / label_counts)
 
-    def __init__(self, k=5, distance_algorithm='euclidean', weight_function=None, score_func='max_labels'):
+    def __init__(self, k=5, distance_algorithm='euclidean', score_func='max_labels'):
         """
+        :param k: The number of neighbors to include
         :param distance_algorithm: Either euclidean or manhattan
-        :param weight_function: The weight function, takes a distance and returns an adjusted distance
-            that can be based on weight
         :param score_func: Options are max_labels...
         """
         self._k = k
         self._distance_algorithm = KNNModel.manhattan if 'manhattan' else KNNModel.euclidean
         self._label_selection = KNNModel.max_labels if score_func else None
-        self._weight_func = weight_function
         self._train_vectors = None
         self._train_labels = None
+        self._config = {
+            'k': k,
+            'distance_algorithm': distance_algorithm,
+            'score_func': score_func
+        }
 
     def fit(self, train_data):
         """
@@ -54,9 +57,6 @@ class KNNModel:
         labels = [self._train_labels[n[0]] for n in neighbors]
         updated_weights = [n[1] for n in neighbors]
 
-        if self._weight_func:
-            updated_weights = self._weight_func(updated_weights)
-
         return self._label_selection([(n[0], l) for n, l in zip(updated_weights, labels)])
 
     def _kNearestNeighbors(self, point):
@@ -74,14 +74,8 @@ class KNNModel:
     def store_results(self, directory):
         os.makedirs(directory, exist_ok=True)
 
-        model_config = {
-            'k': self._k,
-            '_distance_algorithm': str(self._distance_algorithm),
-            '_label_selection': str(self._label_selection),
-            '_weight_func': str(self._weight_func),
-        }
         with open(os.path.join(directory, 'config.json'), 'w', encoding='utf-8') as config_file:
-            json.dump(model_config, config_file, indent=4, ensure_ascii=False)
+            json.dump(self._config, config_file, indent=4, ensure_ascii=False)
 
         with open(os.path.join(directory, 'train_data.json'), 'w', encoding='utf-8') as train_file:
             json.dump(list(zip(self._train_vectors, self._train_labels)), train_file, indent=4, ensure_ascii=False)
