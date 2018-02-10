@@ -4,6 +4,7 @@ import math
 import json
 import logging
 
+import tensorflow as tf
 import numpy as np
 
 from .knn_util import max_labels
@@ -11,7 +12,7 @@ from .knn_util import max_labels
 logger = logging.getLogger(__name__)
 
 
-class NumpyKNNModel:
+class TensorflowKNNModel:
     """
     A KNN Implementation using numpy and matrix operations to achieve euclidean distance
     """
@@ -43,6 +44,10 @@ class NumpyKNNModel:
         self._train_vectors = train_vectors
         self._train_labels = train_labels
 
+        self._feature_count = self._train_vectors.shape[1]
+
+        self._define_kNearestNeighbors_model()
+
     def predict(self, vector):
         neighbors = self._kNearestNeighbors(vector)
 
@@ -51,14 +56,34 @@ class NumpyKNNModel:
 
         return self._label_selection([(n[0], l) for n, l in zip(updated_weights, labels)])
 
+    def _define_kNearestNeighbors_model(self):
+        input_shape = (1, self._feature_count)
+        output_shape = (len(self._train_vectors),)
+
+        knn_graph = tf.Graph()
+        with knn_graph.as_default() as g:
+            X = tf.placeholder(tf.float32, input_shape)   # Shape(1, feature_count)
+
+            neighbor_constant = tf.constant(self._train_vectors)  # Shape(N, feature_count)
+
+            diff_op = X - neighbor_constant   # Shape(N, feature_count)
+            squares = tf.square(diff_op)      # Shape(N, feature_count)
+            sums = tf.matmul(squares, tf.ones((self._feature_count, 1)))  # Shape(N, 1)
+            roots = tf.sqrt(sums)   # Shape(N, 1)
+            model = tf.reshape(roots, output_shape)  # Shape(N,)
+
+            init = tf.global_variables_initializer()
+            sess = tf.Session()
+            sess.run(init)
+
+        self._model = model
+        self._X = X
+        self._sess = sess
+
     def _kNearestNeighbors(self, point):
-        point_vector = np.array(point, dtype=np.float32)          # Shape(1, feature_count)
-        difference = point_vector - self._train_vectors           # Shape(N, feature_count)
-        squares = np.square(difference)                           # Shape(N, feature_count): squares = difference * difference
-        sums = squares @ np.ones(shape=point_vector.T.shape)      # Shape(feature_count, 1): np.sum(squares, axis=1) or squares.dot(np.ones(shape=point_vector.T.shape))
-        # @/dot seems to be faster then np.sum ¯\_(ツ)_/¯ - https://stackoverflow.com/questions/37356645/numpy-is-matrix-multiplication-faster-than-sum-of-a-vector
-        roots = np.sqrt(sums)
-        distances = list(enumerate(zip(roots, self._train_vectors)))
+        point_vector = np.array(point, dtype=np.float32).reshape(1, 4)   # Shape(1, feature_count)
+        distance_scores = self._sess.run(self._model, feed_dict={self._X: point_vector})
+        distances = list(enumerate(zip(distance_scores, self._train_vectors)))
         sorted_nearest = sorted(distances, key=lambda x: x[1][0])
 
         if self._k:

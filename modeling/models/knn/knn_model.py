@@ -3,25 +3,12 @@ import math
 import json
 import logging
 
-from collections import Counter
+from .knn_util import max_labels, euclidean, manhattan
 
 logger = logging.getLogger(__name__)
 
 
-class KNNModel:
-    def euclidean(point_one, point_two):
-        square_sum = sum([(p-q) ** 2 for p, q in zip(point_one, point_two)])
-        return math.sqrt(square_sum)
-
-    def manhattan(point_one, point_two):
-        return sum([abs(p-q) for p, q in zip(point_one, point_two)])
-
-    def max_labels(distance_labels):
-        label_counter = Counter([d[1] for d in distance_labels])
-        most_common = label_counter.most_common()[0]
-        label_counts = len(distance_labels)
-        return (most_common[0], most_common[1] / label_counts)
-
+class ProceduralKNNModel:
     def __init__(self, k=5, distance_algorithm='euclidean', score_func='max_labels'):
         """
         :param k: The number of neighbors to include
@@ -29,8 +16,8 @@ class KNNModel:
         :param score_func: Options are max_labels...
         """
         self._k = k
-        self._distance_algorithm = KNNModel.manhattan if 'manhattan' else KNNModel.euclidean
-        self._label_selection = KNNModel.max_labels if score_func else None
+        self._distance_algorithm = manhattan if distance_algorithm == 'manhattan' else euclidean
+        self._label_selection = max_labels if score_func == 'max_labels' else None
         self._train_vectors = None
         self._train_labels = None
         self._config = {

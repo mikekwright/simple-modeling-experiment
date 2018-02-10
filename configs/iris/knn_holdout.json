@@ -1,7 +1,8 @@
 {
     "__type__": "HoldoutTrainer",
     "model": {
-        "__type__": "KNNModel"
+        "__type__": "knn_model",
+        "implementation": "procedural"
     },
     "data": {
         "__type__": "IrisTransformer",

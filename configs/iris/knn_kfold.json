@@ -1,7 +1,7 @@
 {
     "__type__": "KFoldTrainer",
     "model": {
-        "__type__": "KNNModel"
+        "__type__": "knn_model"
     },
     "data": {
         "__type__": "IrisTransformer",
