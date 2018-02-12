@@ -1,0 +1,15 @@
+{
+    "data": {
+        "__type__": "IrisReader",
+        "data_filename": "raw_data/iris/iris_data.json"
+    },
+    "model": {
+        "__type__": "Transformer",
+        "model": {
+            "__type__": "knn_model"
+        },
+        "steps": [
+            { "__type__": "StrToNumber", "field_names": ["petal_width", "petal_length", "sepal_width", "sepal_length"] }
+        ]
+    }
+}

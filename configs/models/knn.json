@@ -1,0 +1,7 @@
+{
+    "model": {
+        "model": {
+            "__type__": "knn_model"
+        }
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "__type__": "KFoldTrainer",
+    "evaluator": {
+        "__type__": "AccuracyEvaluator"
+    }
+}

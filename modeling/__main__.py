@@ -4,6 +4,9 @@ import json
 import sys
 import logging
 
+from jsoncomment import JsonComment
+from jsonmerge import merge
+
 from .util import JsonLoader
 
 
@@ -11,6 +14,8 @@ from .util import JsonLoader
 from .data import *
 from .evaluator import *
 from .training import *
+from .transform import *
+from .models import *
 
 from .models.knn import *
 
@@ -42,7 +47,6 @@ def cli(ctx, debug, output=None):
     if output:
         os.makedirs(output, exist_ok=True)
 
-    click.echo('Debug mode is %s' % ('on' if debug else 'off'))
     setup_logging(debug, output)
     ctx.obj['OUTPUT'] = output
 
@@ -53,21 +57,58 @@ def cli(ctx, debug, output=None):
 
 
 @cli.command('train')
-@click.argument('config_filename')
+@click.argument('configs', nargs=-1)
 @click.pass_context
-def run_training(ctx, config_filename):
+def run_training(ctx, configs):
+    """
+    Takes in a list of json configs, combines them and runs a training using the config contents
+    """
+    if not configs:
+        click.echo(f'You must supply at least one config')
+        return
+
+    config_contents = combine_configs(configs)
     output = ctx.obj['OUTPUT']
     loader = JsonLoader(class_lookup_func=get_class_from_name)
 
-    with open(config_filename, 'r') as config_file:
-        config_contents = config_file.read()
-        train = loader.initialize_json(config_contents)
-
+    train = loader.initialize_json(config_contents)
     train()
+
     if output is not None:
         with open(os.path.join(output, 'train_config.json'), 'w', encoding='utf-8') as config_file:
             json.dump(json.loads(config_contents), config_file, indent=4, ensure_ascii=False)
         train.store_results(output)
+
+
+@cli.command('combine')
+@click.argument('configs', nargs=-1)
+@click.pass_context
+def combine_command(ctx, configs):
+    """
+    Takes in a list of json comfigs, combines them and prints out the results
+    """
+    config_contents = json.loads(combine_configs(configs))
+
+    output = ctx.obj['OUTPUT']
+    if output:
+        with open(output, 'w', encoding='utf-8') as out_file:
+            json.dump(config_contents, out_file, indent=4, ensure_ascii=False)
+    else:
+        print(json.dumps(config_contents, indent=4, ensure_ascii=False))
+
+
+def combine_configs(configs):
+    contents = {}
+    parser = JsonComment(json)
+
+    for config_filename in configs:
+        with open(config_filename, 'r', encoding='utf-8') as cf:
+            file_contents = parser.load(cf)
+
+        contents = merge(contents, file_contents)
+
+    return json.dumps(contents, indent=4)
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,17 @@
+{
+    "model": {
+        "__type__": "Transformer",
+        "model": {
+            "__type__": "knn_model"
+        },
+        "steps": [
+            { "__type__": "ReplaceMissing", "field_names": ["Age"] },
+            { "__type__": "StrToNumber", "field_names": ["Fare", "Age"] },
+            { "__type__": "Normalize", "field_names": ["Fare"] }
+        ]
+    },
+    "data": {
+        "__type__": "TitanicReader",
+        "directory": "raw_data/titanic"
+    }
+}

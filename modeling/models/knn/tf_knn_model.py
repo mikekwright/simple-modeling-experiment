@@ -33,6 +33,8 @@ class TensorflowKNNModel:
         }
 
     def fit(self, train_data):
+        # print(list(train_data))
+        # sys.exit(0)
         """
         :param train_vectors: Sequence of Vectors[float] to be used in training
         :param train_labels: Sequence of label values (any type)
@@ -81,7 +83,7 @@ class TensorflowKNNModel:
         self._sess = sess
 
     def _kNearestNeighbors(self, point):
-        point_vector = np.array(point, dtype=np.float32).reshape(1, 4)   # Shape(1, feature_count)
+        point_vector = np.array(point, dtype=np.float32).reshape(1, self._feature_count)   # Shape(1, feature_count)
         distance_scores = self._sess.run(self._model, feed_dict={self._X: point_vector})
         distances = list(enumerate(zip(distance_scores, self._train_vectors)))
         sorted_nearest = sorted(distances, key=lambda x: x[1][0])

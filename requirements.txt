@@ -8,3 +8,5 @@ pylint==1.8.2
 click==6.7
 tensorflow==1.5.0
 tensorflow-tensorboard==1.5.1
+jsoncomment==0.3.0
+jsonmerge==1.4.0

@@ -1,0 +1,6 @@
+{
+    "__type__": "HoldoutTrainer",
+    "evaluator": {
+        "__type__": "AccuracyEvaluator"
+    }
+}

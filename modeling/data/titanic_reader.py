@@ -9,13 +9,32 @@ logger = logging.getLogger(__name__)
 
 
 class TitanicReader:
+    """
+    The data from the titanic reader has a number of features.
+
+    Numeric:
+    - PassengerId
+    - Pclass
+    - Age
+    - SibSp
+    - Parch
+    - Ticket
+    - Fare
+
+    Non-Numeric:
+    - Name
+    - Sex
+    - Cabin
+    - Embarked
+    """
     TEST_NAME = 'test.csv'
     TRAIN_NAME = 'train.csv'
 
-    def __init__(self, directory, include_test=False, seed=42):
+    def __init__(self, directory, include_test=False, seed=42, label_name='Survived'):
         self._directory = directory
         self._include_test = include_test
         self._seed = seed
+        self._label_name = label_name
         self._random = np.random.RandomState(seed=seed)
 
     def _read_file(self, filename):
@@ -30,6 +49,7 @@ class TitanicReader:
             test_data = self._read_file(TitanicReader.TEST_NAME)
             all_data = all_data + test_data
 
+        all_data = [(a, a['Survived']) for a in all_data]
         self._random.shuffle(all_data)
         split_index = int(len(all_data) * split)
 
@@ -40,7 +60,8 @@ class TitanicReader:
 
         data_config = {
             'seed': self._seed,
-            'directory': self._directory
+            'directory': self._directory,
+            'label_name': self._label_name
         }
         with open(os.path.join(directory, 'config.json'), 'w', encoding='utf-8') as config_file:
             json.dump(data_config, config_file, indent=4, ensure_ascii=False)
