@@ -6,9 +6,11 @@
         },
         "steps": [
             { "__type__": "ReplaceMissing", "field_names": ["Age"] },
-            { "__type__": "StrToNumber", "field_names": ["Fare", "Age"] },
+            { "__type__": "StrToNumber", "field_names": ["Fare", "Age" ] },
             { "__type__": "Normalize", "field_names": ["Fare"] },
-            { "__type__": "MultiCategorical", "field_names": ["Sex", "Embarked", "Parch", "SibSp"] }
+            { "__type__": "MultiCategorical", "field_names": ["Sex", "Embarked", "Parch", "SibSp", "Pclass"] },
+            #{ "__type__": "MultiCategorical", "field_names": ["Sex"] },
+            { "__type__": "FieldIsNotEmpty", "field_names": ["Cabin"] },
         ]
     },
     "data": {

@@ -12,7 +12,10 @@ class FieldIsNotEmpty(BaseStep):
         super().__init__(field_names, result_names)
 
     def _handle_call(self, field, value):
-        return True if value else False
+        if value == '' or value is None:
+            return 0
+        else:
+            return 1
 
     def store_results(self, directory):
         pass
