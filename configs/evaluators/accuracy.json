@@ -1,0 +1,5 @@
+{
+    "evaluator": {
+        "__type__": "AccuracyEvaluator"
+    }
+}

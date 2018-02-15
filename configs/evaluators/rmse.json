@@ -1,0 +1,6 @@
+{
+    "evaluator": {
+        "__type__": "MeanErrorEvaluator",
+        "me_type": "RMSE",
+    }
+}

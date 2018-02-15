@@ -1,0 +1,20 @@
+{
+    "data": {
+        "__type__": "IrisReader",
+        "data_filename": "raw_data/iris/iris_data.json",
+        "label_name": "petal_width",
+    },
+    "model": {
+        "__type__": "Transformer",
+        "model": {
+            "__type__": "lr_model"
+        },
+        "steps": [
+            { "__type__": "StrToNumber", "field_names": ["petal_length"] }
+        ]
+    },
+    "evaluator": {
+        "__type__": "MeanErrorEvaluator",
+        "me_type": "RMSE",
+    }
+}

@@ -4,6 +4,15 @@ This is my scratch repo that I am using to better understand the Data Science pr
 hopefully increase my overall fluency in this exciting field.  
 
 
+## Sample Runs
+
+### KNN
+
+### LR
+
+- Run using iris data and MSE
+`python -m modeling --output /tmp/test2 train configs/kfold_template.json configs/models/lr/sv_lr.json configs/datasets/iris/petal_l_to_w.json configs/evaluators/mse.json`
+
 ## Study Material
 
 There are a few books that I am using to further my understanding, they are:

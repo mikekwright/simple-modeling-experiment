@@ -18,6 +18,7 @@ from .transform import *
 from .models import *
 
 from .models.knn import *
+from .models.lr import *
 
 
 def get_class_from_name(name):
