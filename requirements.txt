@@ -10,3 +10,4 @@ tensorflow==1.5.0
 tensorflow-tensorboard==1.5.1
 jsoncomment==0.3.0
 jsonmerge==1.4.0
+jupyterlab==0.31.9
