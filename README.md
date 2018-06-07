@@ -34,6 +34,8 @@ here.
 * [USGS Gov DataSets](https://www.usgs.gov/products/data-and-tools/overview)  
 * [Python Package for Datasets - Retriever](https://github.com/weecology/retriever) 
 
+* [EliteDataScience - Learn Statistics for Data Science](https://elitedatascience.com/learn-statistics-for-data-science)
+
 There is also a stackoverflow for datasets
 
 * [OpenData](https://opendata.stackexchange.com/)  
