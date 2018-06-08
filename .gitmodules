@@ -1,0 +1,3 @@
+[submodule "book-repos/ThinkStats2"]
+	path = book-repos/ThinkStats2
+	url = git@github.com:mikekwright/ThinkStats2
