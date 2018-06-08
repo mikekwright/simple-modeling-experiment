@@ -3,6 +3,16 @@
 This is my scratch repo that I am using to better understand the Data Science process, pieces involved and
 hopefully increase my overall fluency in this exciting field.  
 
+## Setting up Development
+
+If you are going to clone from scratch you will need to clone with submodules using the below command   
+
+        git clone --recurse-submodules -j8 https://github.com/mikekwright/simple-modeling-experiment.git 
+
+If you are just grabbing the latest, after pulling be sure to get the latest submodules using the command   
+
+        git submodule update --recursive --remote
+
 
 ## Sample Runs
 
