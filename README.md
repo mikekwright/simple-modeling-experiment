@@ -13,6 +13,14 @@ If you are just grabbing the latest, after pulling be sure to get the latest sub
 
         git submodule update --recursive --remote
 
+### Installing Scala Notebook (Windows)
+
+**NOTE:** As of June 15, 2018 this solution only works for java 8 (9 and 10 currently fail).  
+
+Install a version of java such as openjdk [OpenJDK](https://github.com/ojdkbuild/ojdkbuild)   
+
+Download the scala-notebook install for windows from [here](https://github.com/rvilla87/Big-Data/raw/master/other/jupyter-Scala_2.11.11_kernel_Windows.zip), this
+link is from the [following issue](https://github.com/jupyter-scala/jupyter-scala/issues/1)   
 
 ## Sample Runs
 
