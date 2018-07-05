@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "simple-modeling-experiment"
+version = "0.1.0"
+description = ""
+authors = ["Mike Wright <mkwright@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "3.6"
+beautifulsoup4 = "^4.6"
+Pillow = "^5.0.0"
+scikit-learn = "^0.19.1"
+numpy = "^1.14.0"
+scipy = "^1.0.0"
+click = "^6.7"
+tensorflow = "^1.7.0"
+tensorflow-tensorboard = "^1.5.1"
+jsoncomment = "^0.3.0"
+jsonmerge = "^1.4.0"
+Cython = "^0.28.1"
+imageio = "^2.3.0"
+opencv-python = "^3.4.0.12"
+opencv-contrib-python = "^3.4.0.12"
+dataclasses = "^0.5"
+
+[tool.poetry.dev-dependencies]
+ipython = "^6.2.1"
+jupyter = "^1.0.0"
+pylint = "^1.8.2"
+jupyterlab = "^0.31.9"
+pandas = "^0.22.0"
+matplotlib = "^2.2.2"
+visvis = "^1.11.1"
+
